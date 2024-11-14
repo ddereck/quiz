@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-90ik^c#5$4oaq^_k)w&j!!e!gwe=1s1aws)fq5zul8#my&y3^4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["quizcrab.onrender.com"]
 
 
 # Application definition
