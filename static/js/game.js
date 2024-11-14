@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     }
 
+    
     function showNextCrab() {
         clearInterval(timer);
         if (questionCount < 6 && crabList.length > 0) {
@@ -83,10 +84,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 <p class="glisser">Glissez le <span class="name">"${currentCrab.name}"</span> vers son environnement.</p>
             `;
             crabContainer.querySelector('img').addEventListener('dragstart', drag);
+            crabContainer.querySelector('img').addEventListener('touchstart', onTouchStart);
             validateButton.style.display = 'none';
             questionCount++;
             resetForm();
             displayThreeHabitats();
+            isDragged = false;
             startTimer();
         } else {
             endGame();
@@ -97,35 +100,71 @@ document.addEventListener('DOMContentLoaded', (event) => {
         ev.preventDefault();
     }
 
+    let isDragged = false;
+
     function drag(ev) {
         ev.dataTransfer.setData("text", currentCrab.name);
+        isDragged = true;
+        clearInterval(timer);
     }
 
     function drop(ev) {
         ev.preventDefault();
-        const habitat = ev.target.dataset.habitat || ev.target.textContent; // Use dataset to fetch habitat
-        selectedHabitat = habitat;
-
+        const habitat = ev.target.closest('.habitat');
+        selectedHabitat = habitat.dataset.habitat;
+    
         const img = document.createElement('img');
         img.src = `/static/images/${currentCrab.image}`;
-        img.style.width = window.innerWidth <= 768 ? '80px' : '100px';
-        img.style.height = window.innerWidth <= 768 ? '80px' : '100px';
-        img.style.width = '50px';
-        img.style.height = '50px';
-        ev.target.innerHTML = ''; 
-        ev.target.appendChild(img);
+        img.classList.add('dropped-crab');
+        habitat.appendChild(img);
+    
+        habitat.classList.add('blur-background');
         validateButton.style.display = 'block';
         resetButton.style.display = 'block';
-
+    
         crabContainer.querySelector('img').style.display = 'none';
-        habitats.querySelectorAll('.habitat').forEach(habitat => {
-            if (habitat !== ev.target) {
-                habitat.removeEventListener('dragover', allowDrop);
-                habitat.removeEventListener('drop', drop);
+        habitats.querySelectorAll('.habitat').forEach(h => {
+            if (h !== habitat) {
+                h.removeEventListener('dragover', allowDrop);
+                h.removeEventListener('drop', drop);
             }
         });
-    }
 
+        isDragged = true;
+        clearInterval(timer);
+    }
+    
+
+    function onTouchStart(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const img = crabContainer.querySelector('img');
+        img.style.position = 'absolute';
+        img.style.zIndex = '1000';
+    
+        moveAt(touch.pageX, touch.pageY);
+    
+        function moveAt(pageX, pageY) {
+            img.style.left = pageX - img.offsetWidth / 2 + 'px';
+            img.style.top = pageY - img.offsetHeight / 2 + 'px';
+        }
+    
+        function onTouchMove(e) {
+            const touchMove = e.touches[0];
+            moveAt(touchMove.pageX, touchMove.pageY);
+        }
+    
+        function onTouchEnd() {
+            document.removeEventListener('touchmove', onTouchMove);
+            img.removeEventListener('touchend', onTouchEnd);
+    
+            // Ajoute ici la logique de "drop" si nécessaire.
+        }
+    
+        document.addEventListener('touchmove', onTouchMove);
+        img.addEventListener('touchend', onTouchEnd);
+    }
+    
     validateButton.addEventListener('click', () => {
         clearInterval(timer);
         attempts++;
@@ -143,6 +182,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     resetButton.addEventListener('click', () => {
+        isDragged = false;
         resetForm();
         crabContainer.querySelector('img').style.display = 'block';
         displayThreeHabitats();
@@ -290,16 +330,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
     function startTimer() {
         clearInterval(timer);
         let timeLeft = QUESTION_TIME;
-        const timerBar = document.getElementById('progress');
+        const timerElement = document.getElementById('time-remaining');
+        const circle = document.querySelector('#timer circle');
+        const circumference = 2 * Math.PI * 18;
+        circle.style.strokeDasharray = circumference;
 
         timer = setInterval(() => {
-            if (timeLeft <= 0) {
+            if (timeLeft > 0&& !isDragged) {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+                const dashoffset = circumference * (1 - timeLeft / QUESTION_TIME);
+                circle.style.strokeDashoffset = dashoffset;
+            } else if (isDragged) {
+                clearInterval(timer);
+            } else {
                 clearInterval(timer);
                 showNextCrab();
-            } else {
-                timeLeft--;
-                const width = ((QUESTION_TIME - timeLeft) / QUESTION_TIME) * 100;
-                timerBar.style.width = width + '%';
             }
         }, 1000);
     }
