@@ -101,11 +101,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function drag(ev) {
-        const touch = ev.touches ? ev.touches[0] : ev;
-        ev.dataTransfer ? ev.dataTransfer.setData("text", currentCrab.name) : touch.target.setAttribute("data-dragged", currentCrab.name);
+        ev.dataTransfer.setData("text", currentCrab.name);
     }
 
-    function drop(ev) {
+     function drop(ev) {
         ev.preventDefault();
         const habitat = ev.target.dataset.habitat || ev.target.textContent; // Use dataset to fetch habitat
         selectedHabitat = habitat;
