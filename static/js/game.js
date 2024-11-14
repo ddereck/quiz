@@ -154,12 +154,41 @@ document.addEventListener('DOMContentLoaded', (event) => {
             moveAt(touchMove.pageX, touchMove.pageY);
         }
     
-        function onTouchEnd() {
-            document.removeEventListener('touchmove', onTouchMove);
-            img.removeEventListener('touchend', onTouchEnd);
-    
-            // Ajoute ici la logique de "drop" si nécessaire.
+        function onTouchEnd(e) {
+    document.removeEventListener('touchmove', onTouchMove);
+    img.removeEventListener('touchend', onTouchEnd);
+
+    // Vérification de la position de l'image par rapport aux habitats
+    const habitats = document.querySelectorAll('.habitat');
+    let dropped = false;
+
+    habitats.forEach(habitat => {
+        const habitatRect = habitat.getBoundingClientRect();
+        const imgRect = img.getBoundingClientRect();
+
+        // Vérifie si l'image est déposée sur l'habitat
+        if (
+            imgRect.left < habitatRect.right &&
+            imgRect.right > habitatRect.left &&
+            imgRect.top < habitatRect.bottom &&
+            imgRect.bottom > habitatRect.top
+        ) {
+            dropped = true;
+
+            // Applique l'effet de blur à l'habitat
+            habitat.classList.add('blur-effect');
+
+            // Logique de succès : transition de l'image, score, etc.
+            // (à adapter selon la logique de ton jeu)
         }
+    });
+
+    if (!dropped) {
+        // Logique si l'image n'est pas déposée sur un habitat valide
+        // Par exemple, revenir à la position initiale ou afficher un message de "try again".
+    }
+}
+
     
         document.addEventListener('touchmove', onTouchMove);
         img.addEventListener('touchend', onTouchEnd);
