@@ -7,11 +7,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const resetButton = document.getElementById('reset');
 
     const crabList = [
-        { name: 'Crabe violoniste', image: 'crabe_violoniste.jpg' },
-        { name: 'Crabe de terre', image: 'crabe_de_terre.jpg' },
-        { name: 'Crabe des palétuviers', image: 'crabe_des_paletuviers.jpg' },
-        { name: 'Crabe babette', image: 'crabe_babette.jpg' },
-        { name: 'Crabe noir', image: 'crabe_noir.jpg' }
+        { name: 'Crabe violoniste', image: 'Crabe_violoniste.jpg' },
+        { name: 'Crabe de terre', image: 'Crabe_de_terre.jpg' },
+        { name: 'Crabe des palétuviers', image: 'Crabe_des_paletuviers.jpg' },
+        { name: 'Crabe babette', image: 'Crabe_babette.jpg' },
+        { name: 'Crabe noir', image: 'Crabe_noir.jpg' }
     ];
     const habitatList = ['Mangrove', 'Savane', 'Plage', 'Eau douce'];
     let currentCrab, selectedHabitat, score = 0, attempts = 0, startTime, timer;
