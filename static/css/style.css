@@ -35,6 +35,21 @@ p{
   font-family: Nunito;
   font-style: italic;
 }
+
+.glisser {
+  color: #111;
+  background-color: white;
+  font-family: Poppins;
+font-size: 18px;
+font-weight: 500;
+line-height: 27px;
+letter-spacing: 0.01em;
+text-align: center;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+border-radius: 15px;
+
+}
 .intro {
   width: 200px;
   height: 200px;
@@ -88,17 +103,21 @@ h3, .vert{
   box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
-#habitats{
+/* #habitats{
   width: 30%;
   border: 2px solid #4682b4;
   min-height: 300px;
   padding: 20px;
-  background-color: #ffffff;
   border-radius: 10px;
   transition: all 0.3s ease;
-}
+} */
 
-#habitats:hover, #crab:hover {
+/* #habitats:hover{
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+} */
+
+#crab:hover {
   transform: translateY(-5px);
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
@@ -106,7 +125,7 @@ h3, .vert{
 .habitat, .crab {
   margin: 10px;
   padding: 15px;
-  border: 1px solid #4682b4;
+  border: 12px solid #4682b4;
   cursor: pointer;
   border-radius: 5px;
   transition: all 0.3s ease;
@@ -244,7 +263,7 @@ h3, .vert{
   width: 100px;
   height: 100px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   transition: transform 0.3s ease;
 }
@@ -254,14 +273,18 @@ h3, .vert{
 }
 
 .habitat {
+  border: 3px solid #4682b4;
+  background-color: #ffffff;
+  border-radius: 15px;
   position: relative;
   min-height: 80px; /* Adjust as needed */
 }
 
 .habitat img {
+  border-radius: 15px;
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 0px;
+  right: 0px;
 }
 
 .trophy-container {

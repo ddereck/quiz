@@ -7,11 +7,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const resetButton = document.getElementById('reset');
 
     const crabList = [
-        { name: 'Crabe violoniste', image: 'Crabe_violoniste.jpg' },
-        { name: 'Crabe de terre', image: 'Crabe_de_terre.jpg' },
-        { name: 'Crabe des palétuviers', image: 'Crabe_des_paletuviers.jpg' },
-        { name: 'Crabe babette', image: 'Crabe_babette.jpg' },
-        { name: 'Crabe noir', image: 'Crabe_noir.jpg' }
+        { name: 'Crabe violoniste', image: 'crabe_violoniste.jpg' },
+        { name: 'Crabe de terre', image: 'crabe_de_terre.jpg' },
+        { name: 'Crabe des palétuviers', image: 'crabe_des_paletuviers.jpg' },
+        { name: 'Crabe babette', image: 'crabe_babette.jpg' },
+        { name: 'Crabe noir', image: 'crabe_noir.jpg' }
     ];
     const habitatList = ['Mangrove', 'Savane', 'Plage', 'Eau douce'];
     let currentCrab, selectedHabitat, score = 0, attempts = 0, startTime, timer;
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 <img src="/static/images/${currentCrab.image}" alt="${currentCrab.name}" draggable="true" class="crab-image">
             `;
             questionContainer.innerHTML = `
-                <p>Glissez le <span class="name">"${currentCrab.name}"</span> vers son environnement.</p>
+                <p class="glisser">Glissez le <span class="name">"${currentCrab.name}"</span> vers son environnement.</p>
             `;
             crabContainer.querySelector('img').addEventListener('dragstart', drag);
             validateButton.style.display = 'none';
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         ev.dataTransfer.setData("text", currentCrab.name);
     }
 
-     function drop(ev) {
+    function drop(ev) {
         ev.preventDefault();
         const habitat = ev.target.dataset.habitat || ev.target.textContent; // Use dataset to fetch habitat
         selectedHabitat = habitat;
