@@ -7,6 +7,7 @@
     <title>Jouer - Crabes et Écosystèmes</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'bootstrap-5.3.3-dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             position: relative;
@@ -86,7 +87,8 @@
     </div>
 
     <button id="validate" style="display:none;">Valider</button>
-    <button id="reset" style="display:none;">Rejouer</button>
+    <button id="reset" style="display:none; max-width:75px">
+        <i class="fas fa-redo button-icon"></i>Rejouer</button>
 
     <!-- Modal -->
     <div class="modal fade" id="gameModal" tabindex="-1" aria-labelledby="gameModalLabel" aria-hidden="true">
