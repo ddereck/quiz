@@ -176,7 +176,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
             dropped = true;
 
             // Applique l'effet de blur à l'habitat
-            habitat.classList.add('blur-effect');
+            //habitat.classList.add('blur-effect');
+            
+            habitat.classList.add('blur-background');
+            validateButton.style.display = 'block';
+            resetButton.style.display = 'block';
+            isDragged = true;
+            clearInterval(timer);
 
             // Logique de succès : transition de l'image, score, etc.
             // (à adapter selon la logique de ton jeu)
