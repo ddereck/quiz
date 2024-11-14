@@ -7,16 +7,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const resetButton = document.getElementById('reset');
 
     const crabList = [
-        { name: 'Crabe violoniste', image: 'Crabe_violoniste.jpg' },
-        { name: 'Crabe de terre', image: 'Crabe_de_terre.jpg' },
-        { name: 'Crabe des palétuviers', image: 'Crabe_des_paletuviers.jpg' },
-        { name: 'Crabe babette', image: 'Crabe_babette.jpg' },
-        { name: 'Crabe noir', image: 'Crabe_noir.jpg' }
+        { name: 'Crabe violoniste', image: 'crabe_violoniste.jpg' },
+        { name: 'Crabe de terre', image: 'crabe_de_terre.jpg' },
+        { name: 'Crabe des palétuviers', image: 'crabe_des_paletuviers.jpg' },
+        { name: 'Crabe babette', image: 'crabe_babette.jpg' },
+        { name: 'Crabe noir', image: 'crabe_noir.jpg' }
     ];
     const habitatList = ['Mangrove', 'Savane', 'Plage', 'Eau douce'];
     let currentCrab, selectedHabitat, score = 0, attempts = 0, startTime, timer;
     let questionCount = 0;
     const QUESTION_TIME = 10;
+    let isDragged = false;
 
     function startGame() {
         habitats.innerHTML = '';
@@ -43,13 +44,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
         displayHabitats.forEach(habitat => {
             const div = document.createElement('div');
             div.className = 'habitat';
-            div.dataset.habitat = habitat; // Added dataset attribute to store habitat
+            div.dataset.habitat = habitat;
             div.innerHTML = `
                 <img src="/static/images/${habitat}.jpg" alt="${habitat}">
                 <span>${habitat}</span>
             `;
-            div.addEventListener('dragover', allowDrop);
-            div.addEventListener('drop', drop);
             habitats.appendChild(div);
         });
     }
@@ -72,134 +71,102 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     }
 
-    
     function showNextCrab() {
         clearInterval(timer);
-        if (questionCount < 6 && crabList.length > 0) {
+        if (questionCount < 5 && crabList.length > 0) {
             currentCrab = crabList.shift();
             crabContainer.innerHTML = `
-                <img src="/static/images/${currentCrab.image}" alt="${currentCrab.name}" draggable="true" class="crab-image">
+                <img src="/static/images/${currentCrab.image}" alt="${currentCrab.name}" class="crab-image">
             `;
             questionContainer.innerHTML = `
                 <p class="glisser">Glissez le <span class="name">"${currentCrab.name}"</span> vers son environnement.</p>
             `;
-            crabContainer.querySelector('img').addEventListener('dragstart', drag);
-            crabContainer.querySelector('img').addEventListener('touchstart', onTouchStart);
-            validateButton.style.display = 'none';
             questionCount++;
             resetForm();
             displayThreeHabitats();
             isDragged = false;
+            initDragAndDrop();
             startTimer();
         } else {
             endGame();
         }
     }
 
-    function allowDrop(ev) {
-        ev.preventDefault();
+    function initDragAndDrop() {
+        const crabImage = crabContainer.querySelector('img');
+        let isDragging = false;
+        let startX, startY;
+
+        crabImage.addEventListener('mousedown', startDrag);
+        crabImage.addEventListener('touchstart', startDrag);
+
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('touchmove', drag);
+
+        document.addEventListener('mouseup', endDrag);
+        document.addEventListener('touchend', endDrag);
+
+        function startDrag(e) {
+            isDragging = true;
+            startX = (e.clientX || e.touches[0].clientX) - crabImage.offsetLeft;
+            startY = (e.clientY || e.touches[0].clientY) - crabImage.offsetTop;
+            crabImage.style.position = 'absolute';
+            crabImage.style.zIndex = 1000;
+        }
+
+        function drag(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+            const clientX = e.clientX || e.touches[0].clientX;
+            const clientY = e.clientY || e.touches[0].clientY;
+            crabImage.style.left = (clientX - startX) + 'px';
+            crabImage.style.top = (clientY - startY) + 'px';
+        }
+
+        function endDrag(e) {
+            if (!isDragging) return;
+            isDragging = false;
+            const dropTarget = document.elementFromPoint(
+                e.clientX || e.changedTouches[0].clientX,
+                e.clientY || e.changedTouches[0].clientY
+            );
+            const habitat = dropTarget.closest('.habitat');
+            if (habitat) {
+                drop(habitat);
+            } else {
+                resetCrabPosition();
+            }
+        }
+
+        function resetCrabPosition() {
+            crabImage.style.position = 'static';
+            crabImage.style.left = 'auto';
+            crabImage.style.top = 'auto';
+        }
     }
 
-    let isDragged = false;
-
-    function drag(ev) {
-        ev.dataTransfer.setData("text", currentCrab.name);
-        isDragged = true;
-        clearInterval(timer);
-    }
-
-    function drop(ev) {
-        ev.preventDefault();
-        const habitat = ev.target.closest('.habitat');
+    function drop(habitat) {
         selectedHabitat = habitat.dataset.habitat;
-    
         const img = document.createElement('img');
-        img.src = `/static/images/${currentCrab.image}`;
+        img.src = crabContainer.querySelector('img').src;
         img.classList.add('dropped-crab');
+        img.style.filter = 'none';
+        img.style.zIndex = '3';
+        img.style.position = 'absolute';
+        img.style.top = '5px';
+        img.style.left = '5px';
+        img.style.maxWidth = '30%';
+        img.style.maxHeight = '100%';
         habitat.appendChild(img);
-    
         habitat.classList.add('blur-background');
+        habitat.style.filter = 'blur(3px)';
         validateButton.style.display = 'block';
         resetButton.style.display = 'block';
-    
         crabContainer.querySelector('img').style.display = 'none';
-        habitats.querySelectorAll('.habitat').forEach(h => {
-            if (h !== habitat) {
-                h.removeEventListener('dragover', allowDrop);
-                h.removeEventListener('drop', drop);
-            }
-        });
-
         isDragged = true;
         clearInterval(timer);
     }
-    
 
-    function onTouchStart(e) {
-        e.preventDefault();
-        const touch = e.touches[0];
-        const img = crabContainer.querySelector('img');
-        img.style.position = 'absolute';
-        img.style.zIndex = '1000';
-    
-        moveAt(touch.pageX, touch.pageY);
-    
-        function moveAt(pageX, pageY) {
-            img.style.left = pageX - img.offsetWidth / 2 + 'px';
-            img.style.top = pageY - img.offsetHeight / 2 + 'px';
-        }
-    
-        function onTouchMove(e) {
-            const touchMove = e.touches[0];
-            moveAt(touchMove.pageX, touchMove.pageY);
-        }
-    
-        function onTouchEnd(e) {
-    document.removeEventListener('touchmove', onTouchMove);
-    img.removeEventListener('touchend', onTouchEnd);
-
-    // Vérification de la position de l'image par rapport aux habitats
-    const habitats = document.querySelectorAll('.habitat');
-    let dropped = false;
-
-    habitats.forEach(habitat => {
-        const habitatRect = habitat.getBoundingClientRect();
-        const imgRect = img.getBoundingClientRect();
-
-        // Vérifie si l'image est déposée sur l'habitat
-        if (
-            imgRect.left < habitatRect.right &&
-            imgRect.right > habitatRect.left &&
-            imgRect.top < habitatRect.bottom &&
-            imgRect.bottom > habitatRect.top
-        ) {
-            dropped = true;
-
-            // Applique l'effet de blur à l'habitat
-            //habitat.classList.add('blur-effect');
-            
-            habitat.classList.add('blur-background');
-            validateButton.style.display = 'block';
-            resetButton.style.display = 'block';
-            isDragged = true;
-            clearInterval(timer);
-
-            // Logique de succès : transition de l'image, score, etc.
-            // (à adapter selon la logique de ton jeu)
-        }
-    });
-
-    if (!dropped) {
-        // Logique si l'image n'est pas déposée sur un habitat valide
-        // Par exemple, revenir à la position initiale ou afficher un message de "try again".
-    }
-}
-
-    
-        document.addEventListener('touchmove', onTouchMove);
-        img.addEventListener('touchend', onTouchEnd);
-    }
-    
     validateButton.addEventListener('click', () => {
         clearInterval(timer);
         attempts++;
@@ -212,8 +179,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             resetForm();
             showNextCrab();
         }
-        
-    startTimer();
+        startTimer();
     });
 
     resetButton.addEventListener('click', () => {
@@ -226,8 +192,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     function resetForm() {
         habitats.querySelectorAll('.habitat').forEach(habitat => {
             habitat.innerHTML = habitat.textContent;
-            habitat.addEventListener('dragover', allowDrop);
-            habitat.addEventListener('drop', drop);
         });
         validateButton.style.display = 'none';
         resetButton.style.display = 'none';
@@ -300,7 +264,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     }
 
-    
     function getCrabFacts(crabName) {
         const facts = {
             'Crabe violoniste': {
