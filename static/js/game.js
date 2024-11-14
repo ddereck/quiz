@@ -50,6 +50,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
             `;
             div.addEventListener('dragover', allowDrop);
             div.addEventListener('drop', drop);
+            div.addEventListener('touchstart', allowDrop); // Ajout du support tactile
+            div.addEventListener('touchend', drop); // Ajout du support tactile
             habitats.appendChild(div);
         });
     }
@@ -83,6 +85,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 <p>Glissez le <span class="name">"${currentCrab.name}"</span> vers son environnement.</p>
             `;
             crabContainer.querySelector('img').addEventListener('dragstart', drag);
+            crabImage.addEventListener('touchstart', drag); // Support tactile
             validateButton.style.display = 'none';
             questionCount++;
             resetForm();
@@ -98,7 +101,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function drag(ev) {
-        ev.dataTransfer.setData("text", currentCrab.name);
+        const touch = ev.touches ? ev.touches[0] : ev;
+        ev.dataTransfer ? ev.dataTransfer.setData("text", currentCrab.name) : touch.target.setAttribute("data-dragged", currentCrab.name);
     }
 
     function drop(ev) {
