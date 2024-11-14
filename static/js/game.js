@@ -126,21 +126,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
         function endDrag(e) {
             if (!isDragging) return;
             isDragging = false;
+            const dropTarget = document.elementFromPoint(
+                e.clientX || e.changedTouches[0].clientX,
+                e.clientY || e.changedTouches[0].clientY
+            );
             
-            // Obtenez les coordonnées de l'événement de fin de glisser-déposer.
-            const clientX = e.clientX || e.changedTouches[0].clientX;
-            const clientY = e.clientY || e.changedTouches[0].clientY;
-        
-            // Vérifiez s'il y a un habitat sous le point de chute.
-            let dropTarget = document.elementFromPoint(clientX, clientY);
-            const habitat = dropTarget ? dropTarget.closest('.habitat') : null;
-        
+            // Recherche de l'habitat ou de sa zone environnante
+            const habitat = dropTarget.closest('.habitat') || dropTarget.closest('.habitat-zone');
+            
             if (habitat) {
                 drop(habitat);
             } else {
                 resetCrabPosition();
             }
         }
+
 
 
         function resetCrabPosition() {
