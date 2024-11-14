@@ -1,0 +1,498 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  background: #1C58F2;
+  margin: 0;
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.win{
+  background: #fff;
+}
+
+h1{
+  text-align: center;
+  color: #FFFFFF;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  font-size: 2.5em;
+  margin-bottom: 30px;
+  font-family: Kavoon;
+  font-weight: 400;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+}
+
+p{
+  text-align: center;
+  color: #FFFFFF;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  font-size: 2.5em;
+  margin-bottom: 30px;
+  font-family: Nunito;
+  font-style: italic;
+}
+.intro {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 20px auto;
+  display: block;
+}
+
+.bar {
+  width: 50px;
+  height: 3px;
+  background-color: white;
+  margin: 20px auto;
+}
+
+.button {
+  margin-top: 10px;
+}
+
+.crabname {
+  color:#111
+}
+
+.name, h2 {
+  color:#1C58F2
+}
+
+h2{
+gap: 0px;
+opacity: 0px;
+}
+
+h3, .vert{
+  font-family: Nunito;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 25.6px;
+  text-align: center;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: #6BC7A6;
+}
+#game-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+#habitats{
+  width: 30%;
+  border: 2px solid #4682b4;
+  min-height: 300px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+#habitats:hover, #crab:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.habitat, .crab {
+  margin: 10px;
+  padding: 15px;
+  border: 1px solid #4682b4;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.habitat:hover, .crab:hover {
+  background-color: #e6f2ff;
+  transform: scale(1.05);
+}
+
+#timer-bar {
+  width: 100%;
+  height: 10px;
+  background-color: #ddd;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+#progress {
+  width: 0%;
+  height: 100%;
+  background-color: #67db6b;
+  transition: width 0.5s linear;
+}
+
+#validate, #nextButton{
+  font-weight: bold;
+  text-transform: uppercase;
+  display: block;
+  margin: 20px auto;
+  padding: 10px 30px;
+  font-size: 18px;
+  background-color: #67db6b;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+#validate:hover, #nextButton:hover {
+  background-color: #62e566;
+  transform: scale(1.05);
+}
+
+#reset {
+  font-size: 15px;
+  font-weight: bold;
+  text-decoration: underline;
+  display: block;
+  background: none;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#reset:hover {
+  color: rgb(255, 251, 251);
+}
+
+.start-button {
+  margin-top: 10px;
+  text-transform: uppercase;
+  display: block;
+  width: 200px;
+  margin: 20px auto;
+  padding: 15px 30px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  background-color: #fff;
+  color: #1C58F2;
+  text-decoration: none;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.start-button:hover {
+  background-color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+
+.button {
+  display: block;
+  width: 200px;
+  margin: 20px auto;
+  padding: 15px 30px;
+  font-size: 20px;
+  text-align: center;
+  background-color: #0060FF;
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 5px solid #2577FF;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.button:hover {
+  background-color: #003edb;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.slide-in {
+  animation: slideIn 0.5s ease-out;
+}
+
+#crab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.crab-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.crab-image:hover {
+  transform: scale(1.05);
+}
+
+.habitat {
+  position: relative;
+  min-height: 80px; /* Adjust as needed */
+}
+
+.habitat img {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.trophy-container {
+  position: relative;
+  width: 250px; /* Ajuster la taille en fonction de la taille souhaitée */
+  height: 250px; /* Ajuster la taille en fonction de la taille souhaitée */
+}
+
+.layout {
+  position: absolute;
+  width: 100%; /* L'image prend toute la largeur du conteneur */
+  height: 100%; /* L'image prend toute la hauteur du conteneur */
+  top: 0;
+  left: 0;
+  z-index: 1; /* Image de fond */
+}
+
+.imgwin {
+  position: absolute;
+  width: 230px; /* Ajuster la taille pour qu'elle rentre dans le layout */
+  height: 225px;
+  top: 50%; /* Centrer verticalement */
+  left: 50%; /* Centrer horizontalement */
+  transform: translate(-50%, -50%); /* Ajuster le positionnement pour centrer */
+  z-index: 2; /* Image de trophée par-dessus */
+}
+
+.imglose {
+  max-width: 100px;
+  margin: 0 auto;
+  display: block;
+}
+
+.text-center {
+  text-align: center;
+}
+
+
+.modal-body h4 {
+  margin-top: 20px;
+  color: #0060FF;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  margin: 20px auto;
+  padding: 10px 30px;
+  text-align: center;
+  text-transform: uppercase;
+  gap: 10px;
+  border-radius: 8px;
+  opacity: 0px;
+
+}
+
+.modal-body ul {
+  font-family: Nunito Sans;
+font-size: 17px;
+font-weight: 700;
+line-height: 23.19px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+}
+
+.modal-body li {
+  margin-bottom: 10px;
+}
+
+.modal-body strong {
+  color: #0060FF;
+}
+
+.text-danger {
+  color: red;
+}
+
+
+@media (max-width: 768px) {
+  
+  h1 {
+    font-family: Kavoon;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 33.6px;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    
+}
+
+.intro {
+  width: 260px;
+  height: 260px;
+  top: 150px;
+  left: 54px;
+  gap: 0px;
+  opacity: 0px;  
+}
+
+p {
+  font-family: Nunito;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 700;
+  line-height: 20px;
+  text-align: center;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;  
+}
+
+.start-button {
+  width: Fixed (339px)px;
+  height: Hug (64px)px;
+  top: 704px;
+  left: 18px;
+  padding: 18px 16px 18px 16px;
+  gap: 10px;
+  border-radius: 100px;
+  border: 0px 0px 5px 0px;
+  opacity: 0px;
+  
+}
+
+.video-container {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: white;
+  padding-bottom: 10px;
+}
+
+.video {
+  width: 100%;
+  height: auto;
+  max-height: 200px;
+  object-fit: cover;
+}
+  #game-container {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  #habitats {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+  }
+
+  .habitat {
+      width: 45%;
+      height: 90px;
+      margin: 5px;
+  }
+
+  .crab-image {
+      width: 80%;
+      max-width: 100px;
+      height: auto;
+  }
+
+  #timer-bar {
+      height: 10px;
+  }
+
+  #validate, #reset {
+      font-size: 15px;
+      padding: 8px 18px;
+      margin: 8px auto;
+  }
+  .bar {
+    width: 50px;
+    height: 3px;
+    background-color: white;
+    margin: 10px auto;
+  }
+  .modal-dialog {
+      margin: 10px;
+  }
+
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .modal-body h4 {
+      font-size: 15px;
+  }
+
+  .modal-body ul {
+      padding-left: 10px;
+  }
+
+  .modal-body li {
+      font-size: 12px;
+      margin-bottom: 8px;
+  }
+
+  #nextButton {
+      width: 80%;
+  }
+  
+.modal-footer {
+  margin-top: auto;
+}
+
+.trophy-container {
+  max-width: 150px;
+  max-height: 150px;
+}
+
+h2, h3 {
+  font-size: 1.2rem;
+}
+
+.bi {
+  font-size: 1.5rem;
+}
+
+h4 {
+  font-size: 1rem;
+}
+
+h5 {
+  font-size: 0.8rem;
+}
+}
+
+

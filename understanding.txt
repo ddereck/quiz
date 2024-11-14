@@ -1,0 +1,33 @@
+on oublie tout et je te réexplique le game: 
+-un jeu c'est avant tout un quiz de 6 questions de 5 point chacun, total 30points
+-le jeu dure en tout 60 secondes
+-chaque question affiches trois environnements de crabes et une image de crabe avec le texte
+correspondant "Glisser le <<nom du crabe>> vers son environnement
+-apres avoir glissé le joueur clique "Valider"
+-si la réponse est bonne le modal succes est affiché: image du crabe et en dessous<Bravon vous avez 
+trouvé l'habitat du <<nom du crabe>> > et juste apres en titre <Faits interessants> et description correspondante
+au crabe présenté+ un bouton "Suivant"; suivant ferme le modal et ramène la seconde question et même process en continuant
+le décompte
+
+-si la réponse est mauvaise le modal tryagain est affiché: sticker triste et en dessous <<Mauvaise
+réponse! Il ne vous reste plus qu'un essai. + Bouton "Fermer"; fermer ferme le modal sans changer
+la question en cours mais efface le choix précédent tout en continuant toujours le décompte
+
+-si seconde mauvaise réponse le modal failed est affiché: image du crabe et en dessous <Dommage,
+ce n'était pas le bon habitat! Le bon habitat ce sont les <<Reponse attendu>> > et juste apres en 
+titre <Faits interessants> et description correspondante
+au crabe présenté + un bouton "Suivant"; suivant ferme le modal et ramène 
+la question suivante et même process en continuant le décompte
+
+-le jeu prend fin :
+-si le temps est écoulé: dans ce cas la page success sera affiché avec <Félicitations, vous avez 
+terminé le quiz avec <score> points sur 30! icône géante de like; Expert des crabes de Guadeloupe; illustrations du score
+du temps effectué et total de bonnes réponses + Bouton "Rejouer"
+
+
+-si le joueur a répondu avec succès aux six questions:
+dans ce cas la page congrat sera affiché avec <Félicitations, vous avez terminé le quiz avec 30
+points sur 30! icône géante de trophéé, Expert des crabes de Guadeloupe; illustrations du score
+du temps effectué et total de bonnes réponses + Bouton "Rejouer"
+
+si tu comprend maintenant on y vas

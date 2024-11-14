@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jouer - Crabes et Écosystèmes</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap-5.3.3-dist/css/bootstrap.min.css' %}">
+    <style>
+        body {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(122.76deg, rgba(53, 80, 220, 0.8) -35.72%, rgba(39, 233, 247, 0.8) 172.73%);
+            background-size: cover;
+            background-position: center;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url(/static/images/intro.png) center/cover no-repeat, rgba(53, 80, 220, 0.6);
+            filter: blur(8px);
+            z-index: -1;
+        }
+
+        #game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .section {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .habitat-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .habitat {
+            position: relative;
+            width: 350px;
+            height: 70px;
+            margin: 10px;
+            border: 2px solid;
+            border-image-source: linear-gradient(122.76deg, #3550DC -35.72%, #27E9F7 172.73%);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .habitat:hover {
+            transform: scale(1.05);
+        }
+
+        .habitat img {
+            width: 50%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+  <div id="timer-bar">
+      <div id="progress"></div>
+  </div>
+
+    <div class="section" id="habitats">
+        <!-- Habitats will be displayed here -->
+    </div>
+
+    <div class="section" id="crab">
+        <!-- The selected crab and related content will be displayed here -->
+    </div>
+
+    <div class="section" id="question">
+        <!-- Question content will be displayed here -->
+    </div>
+
+    <button id="validate" style="display:none;">Valider</button>
+    <button id="reset" style="display:none;">Rejouer</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="gameModal" tabindex="-1" aria-labelledby="gameModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="gameModalLabel"></h5>
+                </div>
+                <div class="modal-body">
+                    <!-- Message content will be inserted here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="nextButton" style="display:none;">Suivant</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/game.js' %}"></script>
+</body>
+</html>

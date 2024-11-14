@@ -1,0 +1,25 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crabes et Écosystèmes de Guadeloupe</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>Crabes et Écosystèmes: <br> 
+    Trouvez leur Habitat !</h1>
+    
+    <img src="{% static 'images/intro.png' %}" alt="Crabe de Guadeloupe" class="intro"><br>
+
+    <p>"Apprenez à associer chaque crabe à son environnement et découvrez leur
+        rôle écologique grâce à ce quiz visuel"</p>
+
+    <div class="bar"></div>
+    <a href="{% url 'start' %}" class="start-button">Commencer</a>
+
+    <script src="{% static 'js/game.js' %}"></script>
+</body>
+</html>
