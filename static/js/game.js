@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const habitatList = ['Mangrove', 'Savane', 'Plage', 'Eau douce'];
     let currentCrab, selectedHabitat, score = 0, attempts = 0, startTime, timer;
     let questionCount = 0;
-    const QUESTION_TIME = 10;
+    const QUESTION_TIME = 15;
     let isDragged = false;
 
     function startGame() {
@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         if (isSuccess) {
             content += `
                 <video width="90%" height="260px" autoplay muted class="video">
-                    <source src="/static/videos/failed.mp4" type="video/mp4">
+                    <source src="/static/videos/winq.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             `;
