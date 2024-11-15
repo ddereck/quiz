@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const habitats = document.getElementById('habitats');
     const questionContainer = document.getElementById('question');
     const validateButton = document.getElementById('validate');
-    const timerBar = document.getElementById('progress');
+    const timerBar = document.getElementById('timer');
     const resetButton = document.getElementById('reset');
 
     const crabList = [
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function showNextCrab() {
         clearInterval(timer);
-        if (questionCount < 5 && crabList.length > 0) {
+        if (questionCount < 5 ) {
             currentCrab = crabList.shift();
             crabContainer.innerHTML = `
                 <img src="/static/images/${currentCrab.image}" alt="${currentCrab.name}" class="crab-image">
@@ -96,6 +96,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const crabImage = crabContainer.querySelector('img');
         let isDragging = false;
         let startX, startY;
+        let initialLeft = crabImage.offsetLeft;
+        let initialTop = crabImage.offsetTop;
+
 
         crabImage.addEventListener('mousedown', startDrag);
         crabImage.addEventListener('touchstart', startDrag);
@@ -152,12 +155,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
 
 
-
-
         function resetCrabPosition() {
-            crabImage.style.position = 'static';
-            crabImage.style.bottom = 'auto';
-            crabImage.style.top = 'auto';
+            crabImage.style.position = 'absolute'; 
+            crabImage.style.left = initialLeft + 'px';
+            crabImage.style.top = initialTop + 'px';
         }
     }
 
@@ -370,8 +371,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function endGame() {
-        clearInterval(timer);
-        const timeTaken = questionCount * QUESTION_TIME - Math.floor(parseFloat(document.getElementById('progress').style.width) / 100 * QUESTION_TIME);
+        const timeTaken = Math.min(Math.round((Date.now() - startTime) / 1000), 75);
         
         let winPage;
         if (score === 25) {
