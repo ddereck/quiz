@@ -103,19 +103,20 @@ h3, .vert{
   box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
-/* #habitats{
-  width: 30%;
-  border: 2px solid #4682b4;
-  min-height: 300px;
-  padding: 20px;
-  border-radius: 10px;
-  transition: all 0.3s ease;
-} */
 
-/* #habitats:hover{
+#habitats {
+  display: flex;
+  flex-direction: column; /* Affiche les éléments l'un sous l'autre */
+  flex-wrap: nowrap; /* Empêche le retour à la ligne */
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+#habitats:hover{
   transform: translateY(-5px);
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-} */
+}
 
 #crab:hover {
   transform: translateY(-5px);
