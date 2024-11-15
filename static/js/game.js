@@ -126,20 +126,31 @@ document.addEventListener('DOMContentLoaded', (event) => {
         function endDrag(e) {
             if (!isDragging) return;
             isDragging = false;
-            const dropTarget = document.elementFromPoint(
-                e.clientX || e.changedTouches[0].clientX,
-                e.clientY || e.changedTouches[0].clientY
-            );
-            
-            // Recherche de l'habitat ou de sa zone environnante
-            const habitat = dropTarget.closest('.habitat') || dropTarget.closest('.habitat-zone');
-            
-            if (habitat) {
-                drop(habitat);
+        
+            const clientX = e.clientX || e.changedTouches[0].clientX;
+            const clientY = e.clientY || e.changedTouches[0].clientY;
+        
+            // Get all habitats
+            const allHabitats = document.querySelectorAll('.habitat');
+        
+            // Check if the drop point is within any habitat
+            const droppedHabitat = Array.from(allHabitats).find(habitat => {
+                const rect = habitat.getBoundingClientRect();
+                return (
+                    clientX >= rect.left &&
+                    clientX <= rect.right &&
+                    clientY >= rect.top &&
+                    clientY <= rect.bottom
+                );
+            });
+        
+            if (droppedHabitat) {
+                drop(droppedHabitat);
             } else {
                 resetCrabPosition();
             }
         }
+
 
 
 
