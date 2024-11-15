@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             div.dataset.habitat = habitat;
             div.innerHTML = `
                 <img src="/static/images/${habitat}.jpg" alt="${habitat}">
-                <span>${habitat}</span>
+                <span class="habitat-name">${habitat}</span>
             `;
             habitats.appendChild(div);
         });
@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         function resetCrabPosition() {
             crabImage.style.position = 'static';
-            crabImage.style.left = 'auto';
+            crabImage.style.bottom = 'auto';
             crabImage.style.top = 'auto';
         }
     }
@@ -166,13 +166,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const img = document.createElement('img');
         img.src = crabContainer.querySelector('img').src;
         img.classList.add('dropped-crab');
-        img.style.filter = 'none';
-        img.style.zIndex = '3';
+        img.style.filter = 'none'; 
         img.style.position = 'absolute';
-        img.style.top = '5px';
-        img.style.left = '5px';
+        img.style.top = '0px';
+        img.style.right = '2px';
+        img.style.left = 'auto';
         img.style.maxWidth = '30%';
         img.style.maxHeight = '100%';
+        img.style.zIndex = '1000';
+        img.style.webkitFilter = 'none';
+        img.style.backdropFilter = 'none';
+        img.style.imageRendering = 'crisp-edges';
+        img.style.imageRendering = '-webkit-optimize-contrast';
         habitat.appendChild(img);
         habitat.classList.add('blur-background');
         habitat.style.filter = 'blur(3px)';
