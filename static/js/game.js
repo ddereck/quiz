@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const habitatList = ['Mangrove', 'Savane', 'Plage', 'Eau douce'];
     let currentCrab, selectedHabitat, score = 0, attempts = 0, startTime, timer;
     let questionCount = 0;
-    const QUESTION_TIME = 15;
+    const QUESTION_TIME = 35;
     let isDragged = false;
 
     function startGame() {
