@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const habitatList = ['Mangrove', 'Savane', 'Plage', 'Eau douce'];
     let currentCrab, selectedHabitat, score = 0, attempts = 0, startTime, timer;
     let questionCount = 0;
-    const QUESTION_TIME = 35;
+    const QUESTION_TIME = 30;
     let isDragged = false;
 
     function startGame() {
@@ -191,10 +191,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     validateButton.addEventListener('click', () => {
         clearInterval(timer);
-        attempts++;
         if (checkMatch(currentCrab.name, selectedHabitat)) {
             score += 5;
-            attempts = 0; 
             resetForm();
             showNextCrab();
         } else if (attempts >= 2) {
@@ -236,13 +234,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     Your browser does not support the video tag.
                 </video>
             `;
-        }
-        
-        if (!isSuccess && attempts >= 2) {
-            message = `<span class="text-danger">${message}</span>`;
-        }
 
-        if (!isSuccess && attempts < 2) {
+        if (!isSuccess) {
             content += `
             <div class="text-center">
                 <img src="/static/images/triste.png" alt="triste" class="imglose">
@@ -271,7 +264,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
         nextButton.onclick = () => {
             const bootstrapModal = bootstrap.Modal.getInstance(modal);
             bootstrapModal.hide();
-            if (attempts >= 2 || isGameOver) {
+            if (crabList.length < 1) {
+                const isCorrect = checkMatch(currentCrab.name, selectedHabitat);
+                showModal("Fin du jeu", true, true, isCorrect);
+            } else if (isGameOver) {
                 showNextCrab();
             }
         };
@@ -283,7 +279,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
             modal.addEventListener('hidden.bs.modal', function () {
                 window.location.href = '/start/';
             });
+        } else {
+            modal.addEventListener('hidden.bs.modal', function () {
+                showNextCrab();
+            });
         }
+    }
+
+    function showTimeUpModal() {
+        showModal("Temps écoulé!", false, false, false);
     }
 
     function getCrabFacts(crabName) {
@@ -335,13 +339,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
             showModal(`Bravo, vous avez trouvé l'habitat du <span class="vert">${crab}</span>!`, false, true, true);
             return true;
         } else {
+            showModal(`Dommage, ce n'était pas le bon habitat. Le bon habitat pour le ${crab} est ${matches[crab]}.`, false, true);
             resetForm(); 
             displayThreeHabitats();
-            if (attempts < 2) {
-                showModal(`Mauvaise réponse ! Il ne vous reste plus qu'un essai.`, false, false);
-            } else {
-                showModal(`Dommage, ce n'était pas le bon habitat. Le bon habitat pour le ${crab} est ${matches[crab]}.`, false, true);
-            }
             crabContainer.querySelector('img').style.display = 'block';
             return false;
         }
@@ -356,16 +356,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
         circle.style.strokeDasharray = circumference;
 
         timer = setInterval(() => {
-            if (timeLeft > 0&& !isDragged) {
+            if (timeLeft > 0 && !isDragged) {
                 timeLeft--;
                 timerElement.textContent = timeLeft;
                 const dashoffset = circumference * (1 - timeLeft / QUESTION_TIME);
                 circle.style.strokeDashoffset = dashoffset;
-            } else if (isDragged) {
-                clearInterval(timer);
             } else {
                 clearInterval(timer);
-                showNextCrab();
+                if (!isDragged) {
+                    showTimeUpModal();
+                }
             }
         }, 1000);
     }
