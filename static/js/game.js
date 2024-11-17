@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const habitatList = ['Mangrove', 'Savane', 'Plage', 'Eau douce'];
     let currentCrab, selectedHabitat, score = 0, attempts = 0, startTime, timer;
     let questionCount = 0;
-    const QUESTION_TIME = 30;
+    const QUESTION_TIME = 20;
     let isDragged = false;
 
     function startGame() {
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             score += 5;
             resetForm();
             showNextCrab();
-        } else if (attempts >= 2) {
+        } else {
             resetForm();
             showNextCrab();
         }
@@ -217,6 +217,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         resetButton.style.display = 'none';
     }
 
+        
     function showModal(message, isGameOver = false, showFacts = false, isSuccess = false) {
         const modal = document.getElementById('gameModal');
         const modalTitle = modal.querySelector('.modal-title');
@@ -234,6 +235,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     Your browser does not support the video tag.
                 </video>
             `;
+        }
+        
+    
 
         if (!isSuccess) {
             content += `
@@ -289,6 +293,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     function showTimeUpModal() {
         showModal("Temps écoulé!", false, false, false);
     }
+
 
     function getCrabFacts(crabName) {
         const facts = {
