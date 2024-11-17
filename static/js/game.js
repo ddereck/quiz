@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         habitat.classList.add('blur-background');
         habitat.style.filter = 'blur(3px)';
         validateButton.style.display = 'block';
-        resetButton.style.display = 'block';
+        resetButton.style.display = 'none';
         crabContainer.querySelector('img').style.display = 'none';
         isDragged = true;
         clearInterval(timer);
