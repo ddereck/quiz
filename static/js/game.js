@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
         
-    function showModal(message, isGameOver = false, showFacts = false, isSuccess = false) {
+        function showModal(message, isGameOver = false, showFacts = false, isSuccess = false) {
         const modal = document.getElementById('gameModal');
         const modalTitle = modal.querySelector('.modal-title');
         const modalBody = modal.querySelector('.modal-body');
@@ -268,27 +268,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
         nextButton.onclick = () => {
             const bootstrapModal = bootstrap.Modal.getInstance(modal);
             bootstrapModal.hide();
-            if (crabList.length < 1) {
-                const isCorrect = checkMatch(currentCrab.name, selectedHabitat);
-                showModal("Fin du jeu", true, true, isCorrect);
-            } else if (isGameOver) {
-                showNextCrab();
+            if (questionCount > 5) {
+                endGame();
             }
         };
+        
 
         const bootstrapModal = new bootstrap.Modal(modal);
         bootstrapModal.show();
-
-        if (isGameOver) {
-            modal.addEventListener('hidden.bs.modal', function () {
-                window.location.href = '/start/';
-            });
-        } else {
-            modal.addEventListener('hidden.bs.modal', function () {
-                showNextCrab();
-            });
-        }
     }
+
 
     function showTimeUpModal() {
         showModal("Temps écoulé!", false, false, false);
@@ -345,9 +334,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             return true;
         } else {
             showModal(`Dommage, ce n'était pas le bon habitat. Le bon habitat pour le ${crab} est ${matches[crab]}.`, false, true);
-            resetForm(); 
-            displayThreeHabitats();
-            crabContainer.querySelector('img').style.display = 'block';
             return false;
         }
     }
