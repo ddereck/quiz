@@ -209,6 +209,7 @@ h3, .vert{
 }
 
 .start-button {
+  font-family: Nunito;
   margin-top: 10px;
   text-transform: uppercase;
   display: block;
@@ -422,11 +423,12 @@ p {
 }
 
 .start-button {
+  font-family: Nunito;
   width: Fixed (339px)px;
   height: Hug (64px)px;
-  top: 704px;
+  top: 100px;
   left: 18px;
-  padding: 18px 16px 18px 16px;
+  padding: 8px;
   gap: 10px;
   border-radius: 100px;
   border: 0px 0px 5px 0px;
@@ -445,7 +447,7 @@ p {
 .video {
   width: 100%;
   height: auto;
-  max-height: 200px;
+  max-height: 100px;
   object-fit: cover;
 }
   #game-container {
@@ -482,8 +484,9 @@ p {
       margin: 8px auto;
   }
   .bar {
-    width: 50px;
-    height: 3px;
+    border-radius: 100px;
+    width: 20px;
+    height: 6px;
     background-color: white;
     margin: 10px auto;
   }
