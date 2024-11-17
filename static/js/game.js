@@ -194,10 +194,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
         if (checkMatch(currentCrab.name, selectedHabitat)) {
             score += 5;
             resetForm();
-            showNextCrab();
         } else {
             resetForm();
-            showNextCrab();
         }
         startTimer();
     });
@@ -272,7 +270,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 endGame();
             }
         };
-        
+
+            
+        if (isGameOver) {
+            showNextCrab();
+            modal.addEventListener('hidden.bs.modal', function () {
+                window.location.href = '/start/';
+            });
+        } 
+
+        if (!isGameOver) {
+            nextButton.onclick = () => {
+                const bootstrapModal = bootstrap.Modal.getInstance(modal);
+                bootstrapModal.hide();
+                showNextCrab();
+            };
+        }
 
         const bootstrapModal = new bootstrap.Modal(modal);
         bootstrapModal.show();
