@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         { name: 'Crabe babette', image: 'Crabe_babette.jpg' },
         { name: 'Crabe noir', image: 'Crabe_noir.jpg' }
     ];
-    const habitatList = ['Mangrove', 'Savane', 'Plage', 'Eau douce'];
+    const habitatList = ['Mangrove', 'Savane', 'Plage', 'Riviere'];
     let currentCrab, selectedHabitat, score = 0, attempts = 0, startTime, timer;
     let questionCount = 0;
     const QUESTION_TIME = 20;
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function getCorrectHabitat(crabName) {
         const matches = {
-            'Crabe violoniste': 'Eau douce',
+            'Crabe violoniste': 'Riviere',
             'Crabe de terre': 'Savane',
             'Crabe des palétuviers': 'Mangrove',
             'Crabe babette': 'Mangrove',
@@ -335,7 +335,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     
     function checkMatch(crab, habitat) {
         const matches = {
-            'Crabe violoniste': 'Eau douce',
+            'Crabe violoniste': 'Riviere',
             'Crabe de terre': 'Savane',
             'Crabe des palétuviers': 'Mangrove',
             'Crabe babette': 'Mangrove',
