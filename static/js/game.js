@@ -92,74 +92,86 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     }
 
-    function initDragAndDrop() {
+       function initDragAndDrop() {
         const crabImage = crabContainer.querySelector('img');
         let isDragging = false;
-        let startX, startY;
-        let initialLeft = crabImage.offsetLeft;
-        let initialTop = crabImage.offsetTop;
-
-
-        crabImage.addEventListener('mousedown', startDrag);
-        crabImage.addEventListener('touchstart', startDrag);
-
-        document.addEventListener('mousemove', drag);
-        document.addEventListener('touchmove', drag);
-
-        document.addEventListener('mouseup', endDrag);
-        document.addEventListener('touchend', endDrag);
-
+        let offsetX = 0, offsetY = 0;
+    
         function startDrag(e) {
+            e.preventDefault();
             isDragging = true;
-            startX = (e.clientX || e.touches[0].clientX) - crabImage.offsetLeft;
-            startY = (e.clientY || e.touches[0].clientY) - crabImage.offsetTop;
+            crabImage.style.pointerEvents = 'none'; 
+    
+            // Calculer l'offset entre le curseur et l'image
+            const rect = crabImage.getBoundingClientRect();
+            offsetX = (e.clientX || e.touches[0].clientX) - rect.left;
+            offsetY = (e.clientY || e.touches[0].clientY) - rect.top;
+    
             crabImage.style.position = 'absolute';
             crabImage.style.zIndex = 1000;
+           // crabImage.style.pointerEvents = 'none'; // Éviter de bloquer les événements sous l'image
         }
-
+    
         function drag(e) {
             if (!isDragging) return;
+    
             e.preventDefault();
             const clientX = e.clientX || e.touches[0].clientX;
             const clientY = e.clientY || e.touches[0].clientY;
-            crabImage.style.left = (clientX - startX) + 'px';
-            crabImage.style.top = (clientY - startY) + 'px';
+    
+            crabImage.style.left = `${clientX - offsetX}px`;
+            crabImage.style.top = `${clientY - offsetY}px`;
         }
-
+    
         function endDrag(e) {
+            crabImage.style.pointerEvents = 'auto';
             if (!isDragging) return;
             isDragging = false;
         
-            const clientX = e.clientX || e.changedTouches[0].clientX;
-            const clientY = e.clientY || e.changedTouches[0].clientY;
+            // Restaurer les styles
+            //crabImage.style.pointerEvents = 'auto';
         
-            // Get all habitats
-            const allHabitats = document.querySelectorAll('.habitat');
+            // Identifier la cible du drop
+            const clientX = e.clientX || e.changedTouches[0]?.clientX;
+            const clientY = e.clientY || e.changedTouches[0]?.clientY;
         
-            // Check if the drop point is within any habitat
-            const droppedHabitat = Array.from(allHabitats).find(habitat => {
-                const rect = habitat.getBoundingClientRect();
-                return (
-                    clientX >= rect.left &&
-                    clientX <= rect.right &&
-                    clientY >= rect.top &&
-                    clientY <= rect.bottom
-                );
-            });
+            const dropTarget = document.elementFromPoint(clientX, clientY);
         
-            if (droppedHabitat) {
-                drop(droppedHabitat);
+            if (dropTarget) {
+                console.log('Cible détectée :', dropTarget); // Debugging
             } else {
+                console.error('Aucune cible détectée'); // Debugging
+            }
+        
+            const habitats = document.querySelectorAll('.habitat');
+            const detectedHabitat = detectHabitat(crabImage, habitats);
+            
+            if (detectedHabitat) {
+                console.log(`Habitat détecté : ${detectedHabitat.dataset.habitat}`);
+                drop(detectedHabitat);
+            } else {
+                console.log('Aucun habitat détecté, retour à la position initiale.');
                 resetCrabPosition();
             }
+            
         }
-
-
+        
+        
+    
         function resetCrabPosition() {
-            crabImage.style.position = 'absolute'; 
-            crabImage.style.left = initialLeft + 'px';
-            crabImage.style.top = initialTop + 'px';
+            crabImage.style.position = 'static';
+            crabImage.style.left = 'auto';
+            crabImage.style.top = 'auto';
         }
+    
+        crabImage.addEventListener('mousedown', startDrag);
+        crabImage.addEventListener('touchstart', startDrag, { passive: false });
+    
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('touchmove', drag, { passive: false });
+    
+        document.addEventListener('mouseup', endDrag);
+        document.addEventListener('touchend', endDrag);
     }
 
     function drop(habitat) {
@@ -179,16 +191,34 @@ document.addEventListener('DOMContentLoaded', (event) => {
         img.style.backdropFilter = 'none';
         img.style.imageRendering = 'crisp-edges';
         img.style.imageRendering = '-webkit-optimize-contrast';
+        
         habitat.appendChild(img);
         habitat.classList.add('blur-background');
         habitat.style.filter = 'blur(3px)';
         validateButton.style.display = 'block';
         resetButton.style.display = 'none';
         crabContainer.querySelector('img').style.display = 'none';
-        isDragged = true;
+        
+        //isDragged = true;
         clearInterval(timer);
     }
 
+    function detectHabitat(crab, habitats) {
+        const crabRect = crab.getBoundingClientRect();
+        for (const habitat of habitats) {
+            const habitatRect = habitat.getBoundingClientRect();
+            if (
+                crabRect.right > habitatRect.left &&
+                crabRect.left < habitatRect.right &&
+                crabRect.bottom > habitatRect.top &&
+                crabRect.top < habitatRect.bottom
+            ) {
+                return habitat;
+            }
+        }
+        return null;
+    }
+    
     validateButton.addEventListener('click', () => {
         clearInterval(timer);
         if (checkMatch(currentCrab.name, selectedHabitat)) {
