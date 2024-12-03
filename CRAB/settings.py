@@ -21,13 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-90ik^c#5$4oaq^_k)w&j!!e!gwe=1s1aws)fq5zul8#my&y3^4'
+SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 # ALLOWED_HOSTS = ["quizcrab.onrender.com"]
-ALLOWED_HOSTS = ["quiz-crab.onrender.com"]
+ALLOWED_HOSTS = [os.environ["ALLOWED_HOST"]]
 
 # Application definition
 
