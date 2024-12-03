@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  app:
+    container_name: crabes
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: uvicorn --host 0.0.0.0 --port 9000 CRAB.asgi:application
+    image: cangt/crabes:0.1.0
+    env_file:
+      - .env
+    hostname: ${HOST}
+    domainname: ${HOST}
+    volumes:
+      - ./upload:/app/upload
+      - ./static:/app/static
+    network_mode: host
+    # extra_hosts:
+    #       -  "host.docker.internal:host-gateway"
+
+volumes:
+  upload:
+  static:
+
